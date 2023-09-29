@@ -1,21 +1,14 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'kylas_data_mask/configuration'
 
-RSpec.describe KylasDataMask do
-  context 'with correct version' do
-    it 'has a version number' do
-      expect(KylasDataMask::VERSION).to eq('1.0.0')
-    end
-  end
-
-  describe '.configure' do
+RSpec.describe KylasDataMask::Configuration do
+  context '#validate!' do
     context 'when api_url is blank' do
       it 'should raise exception' do
         expect do
-          described_class.configure do |c|
-            c.api_url = nil
-          end
+          described_class.new.validate!
         end.to raise_error(
           KylasDataMask::ConfigurationError,
           'API URL is missing in the configuration'
@@ -26,9 +19,7 @@ RSpec.describe KylasDataMask do
     context 'when api_url is present' do
       it 'should not raise exception' do
         expect do
-          described_class.configure do |c|
-            c.api_url = 'https://www.examples.io'
-          end
+          described_class.new(api_url: 'abc').validate!
         end.not_to raise_error(
           KylasDataMask::ConfigurationError,
           'API URL is missing in the configuration'
