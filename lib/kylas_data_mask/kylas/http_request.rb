@@ -16,8 +16,6 @@ module KylasDataMask
           request['Authorization'] = "Bearer #{access_token}"
         end
 
-        request['user-agent'] = "User Access Token: #{access_token}"
-
         response = https.request(request)
         response_body = begin
           JSON.parse(response.body)
