@@ -14,7 +14,7 @@ module KylasDataMask
     def fetch
       response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, api_key: @api_key)
       if response[:status_code] == '200'
-        { success: true, data: response.dig('data', "#{@field}") }
+        { success: true, data: response.dig('data', @field) }
       else
         puts "#{self.class} | Error while fetching unmasked data of #{@field} from kylas for entity #{@entity_type} - status_code: #{response[:status_code]}, error_message: #{response[:data]}"
         { success: false, data: response[:data] }
