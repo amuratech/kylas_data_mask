@@ -10,7 +10,7 @@ module KylasDataMask
     end
 
     def fetch
-      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, @access_token)
+      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, access_token: @access_token)
       if response[:status_code] == '200'
         { success: true, data: response[:data] }
       else

@@ -3,7 +3,7 @@
 module KylasDataMask
   module Kylas
     class HttpRequest
-      def self.request(request_parameters, access_token)
+      def self.request(request_parameters, access_token: nil, api_key: nil)
         url = URI(request_parameters[:url])
         https = Net::HTTP.new(url.host, url.port)
         https.use_ssl = true
@@ -14,10 +14,16 @@ module KylasDataMask
         case request_parameters[:authentication_type]
         when BEARER_TOKEN
           request['Authorization'] = "Bearer #{access_token}"
+        when API_KEY
+          request['api-key'] = api_key
         end
 
-        request['user-agent'] = "User Access Token: #{access_token}"
-
+        request['user-agent'] =
+          if access_token
+            "User Access Token: #{access_token}"
+          else
+            "User Api Key: #{api_key}"
+          end
         response = https.request(request)
         response_body = begin
           JSON.parse(response.body)
