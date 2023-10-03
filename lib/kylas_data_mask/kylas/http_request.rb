@@ -24,6 +24,7 @@ module KylasDataMask
           else
             "User Api Key: #{api_key}"
           end
+
         response = https.request(request)
         response_body = begin
           JSON.parse(response.body)

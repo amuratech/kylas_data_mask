@@ -17,8 +17,7 @@ RSpec.describe KylasDataMask::FetchMaskedFields do
           stub_request(:get, 'https://www.examples.io/v1/entities/lead/masked-fields')
             .with(
               headers: {
-                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779',
-                'User-Agent' => 'User Access Token: 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
+                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
               }
             )
             .to_return(status: 404, body: { 'status_code' => '404', 'message' => 'NOT_FOUND' }.to_json, headers: {})
@@ -80,8 +79,7 @@ RSpec.describe KylasDataMask::FetchMaskedFields do
           stub_request(:get, 'https://www.examples.io/v1/entities/lead/masked-fields')
             .with(
               headers: {
-                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779',
-                'User-Agent' => 'User Access Token: 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
+                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
               }
             )
             .to_return(status: 200, body: expected_masked_fields_response.to_json, headers: {})
