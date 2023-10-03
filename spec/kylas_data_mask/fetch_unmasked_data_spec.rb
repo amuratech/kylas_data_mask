@@ -127,7 +127,7 @@ RSpec.describe KylasDataMask::FetchUnmaskedData do
           field: 'phoneNumbers'
         ).fetch
         expect(response[:success]).to be(true)
-        expect(response[:data]).to eq(lead_details_response.with_indifferent_access['phoneNumbers'])
+        expect(response[:data]).to eq([{"id"=>6014001, "type"=>"MOBILE", "code"=>"IN", "value"=>"8956663400", "dialCode"=>"+91", "primary"=>true}])
       end
     end
 
@@ -148,7 +148,15 @@ RSpec.describe KylasDataMask::FetchUnmaskedData do
           field: 'phoneNumbers'
         ).fetch
         expect(response[:success]).to be(false)
-        expect(response[:data]).to eq(error_response)
+        expect(response[:data]).to eq(
+          {
+            'status_code' => '400',
+            'data' => {
+              "code" => "001079",
+              "message" => "Invalid API key"
+            }
+          }
+        )
       end
     end
   end
