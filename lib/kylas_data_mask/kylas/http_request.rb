@@ -18,13 +18,6 @@ module KylasDataMask
           request['api-key'] = api_key
         end
 
-        request['user-agent'] =
-          if access_token
-            "User Access Token: #{access_token}"
-          else
-            "User Api Key: #{api_key}"
-          end
-
         response = https.request(request)
         response_body = begin
           JSON.parse(response.body)

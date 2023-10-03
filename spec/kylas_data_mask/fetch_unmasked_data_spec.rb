@@ -116,8 +116,7 @@ RSpec.describe KylasDataMask::FetchUnmaskedData do
         stub_request(:get, 'https://www.examples.io/v1/leads/468994')
           .with(
             headers: {
-              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440',
-              'User-Agent' => 'User Api Key: 72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'
+              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'
             }
           )
           .to_return( status: 200, body: lead_details_response.to_json, headers: {})
@@ -138,8 +137,7 @@ RSpec.describe KylasDataMask::FetchUnmaskedData do
         stub_request(:get, 'https://www.examples.io/v1/leads/468994')
           .with(
             headers: {
-              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344',
-              'User-Agent' => 'User Api Key: 72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
+              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
             }
           )
           .to_return( status: 400, body: error_response.to_json, headers: {})
