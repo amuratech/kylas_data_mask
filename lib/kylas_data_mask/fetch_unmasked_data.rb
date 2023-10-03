@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'kylas/http_request'
+
 module KylasDataMask
   class FetchUnmaskedData
     def initialize(api_key:, entity_id:, entity_type:, field:)
