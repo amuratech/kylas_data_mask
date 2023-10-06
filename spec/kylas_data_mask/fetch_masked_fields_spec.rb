@@ -11,87 +11,254 @@ RSpec.describe KylasDataMask::FetchMaskedFields do
       end
     end
 
-    context 'when access_token and entity is valid' do
-      context 'when get failed response from API' do
-        it 'should returns success false and error data' do
-          stub_request(:get, 'https://www.examples.io/v1/entities/lead/masked-fields')
-            .with(
-              headers: {
-                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
-              }
-            )
-            .to_return(status: 404, body: { 'status_code' => '404', 'message' => 'NOT_FOUND' }.to_json, headers: {})
-
-          response = described_class.new(
-            access_token: '41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779',
-            entity_type: 'lead'
-          ).fetch
-
-          expect(response[:success]).to be(false)
-          expect(response[:data]).to eq({ 'status_code' => '404', 'message' => 'NOT_FOUND' })
-        end
+    context 'when Api key is invalid' do
+      let(:error_response) do
+        {
+          'status_code' => '400',
+          'data' => {
+            "code" => "001079",
+            "message" => "Invalid API key"
+          }
+        }
       end
 
-      context 'when get success response from API' do
-        let(:expected_masked_fields_response) do
-          [
-            {
-              "createdAt": '2022-01-04T05:08:50.713+0000',
-              "updatedAt": '2022-01-04T05:08:52.236+0000',
-              "createdBy": 3779,
-              "updatedBy": 3779,
-              "id": 126_414,
-              "deleted": false,
-              "version": 1,
-              "recordActions": nil,
-              "metaData": nil,
-              "tenantId": 1999,
-              "displayName": 'Phone Numbers',
-              "description": nil,
-              "type": 'PHONE',
-              "internalType": nil,
-              "name": 'phoneNumbers',
-              "entityType": nil,
-              "standard": true,
-              "sortable": false,
-              "filterable": true,
-              "required": false,
-              "important": true,
-              "active": true,
-              "multiValue": true,
-              "length": nil,
-              "isUnique": nil,
-              "greaterThan": nil,
-              "lessThan": nil,
-              "lookupForEntity": nil,
-              "internal": false,
-              "lookupUrl": nil,
-              "skipIdNameResolution": false,
-              "picklist": nil,
-              "regex": nil,
-              "colorConfiguration": nil,
-              "maskConfiguration": nil
-            }.with_indifferent_access
-          ]
-        end
+      it 'should returns success false and error data' do
+        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields')
+          .with(
+            headers: {
+              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
+            }
+          )
+          .to_return(status: 404, body: error_response.to_json, headers: {})
 
-        it 'should returns success true and masked fields data' do
-          stub_request(:get, 'https://www.examples.io/v1/entities/lead/masked-fields')
-            .with(
-              headers: {
-                'Authorization' => 'Bearer 41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779'
-              }
-            )
-            .to_return(status: 200, body: expected_masked_fields_response.to_json, headers: {})
+        response = described_class.new(
+          api_key: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344',
+          entity_type: 'lead'
+        ).fetch
 
-          response = described_class.new(
-            access_token: '41c55214-6f77-4d35-a3c0-8f0bc2313696:1999:3779',
-            entity_type: 'lead'
-          ).fetch
+        expect(response[:success]).to be(false)
+        expect(response[:data]).to eq({
+          'status_code' => '400',
+          'data' => {
+            "code" => "001079",
+            "message" => "Invalid API key"
+          }
+        })
+      end
+    end
 
-          expect(response[:success]).to be(true)
-          expect(response[:data]).to eq(expected_masked_fields_response)
-        end
+    context 'when Api key is valid' do
+      let(:form_fields_response) do
+        [
+          {
+            "createdAt": "2023-04-28T08:22:21.869+0000",
+            "updatedAt": "2023-04-28T08:22:21.869+0000",
+            "createdBy": 8112,
+            "updatedBy": 8112,
+            "id": 618218,
+            "deleted": false,
+            "version": 0,
+            "recordActions": nil,
+            "metaData": nil,
+            "tenantId": 3691,
+            "displayName": "First Name",
+            "description": nil,
+            "type": "TEXT_FIELD",
+            "internalType": nil,
+            "name": "firstName",
+            "entityType": nil,
+            "standard": true,
+            "sortable": true,
+            "filterable": true,
+            "required": false,
+            "important": true,
+            "active": true,
+            "multiValue": false,
+            "length": 255,
+            "isUnique": nil,
+            "greaterThan": nil,
+            "lessThan": nil,
+            "lookupForEntity": nil,
+            "internal": false,
+            "lookupUrl": nil,
+            "skipIdNameResolution": false,
+            "picklist": nil,
+            "regex": nil,
+            "colorConfiguration": nil,
+            "maskConfiguration": nil
+          },
+          {
+            "createdAt": "2023-04-28T08:22:21.873+0000",
+            "updatedAt": "2023-10-03T06:21:35.378+0000",
+            "createdBy": 8112,
+            "updatedBy": 8112,
+            "id": 618220,
+            "deleted": false,
+            "version": 1,
+            "recordActions": nil,
+            "metaData": nil,
+            "tenantId": 3691,
+            "displayName": "Phone Numbers Masked",
+            "description": nil,
+            "type": "PHONE",
+            "internalType": nil,
+            "name": "phoneNumbers",
+            "entityType": nil,
+            "standard": true,
+            "sortable": false,
+            "filterable": true,
+            "required": false,
+            "important": true,
+            "active": true,
+            "multiValue": true,
+            "length": nil,
+            "isUnique": nil,
+            "greaterThan": nil,
+            "lessThan": nil,
+            "lookupForEntity": nil,
+            "internal": false,
+            "lookupUrl": nil,
+            "skipIdNameResolution": false,
+            "picklist": nil,
+            "regex": nil,
+            "colorConfiguration": nil,
+            "maskConfiguration": {
+              "id": 1, "enabled": true, "profileIds": []
+            }
+          },
+          {
+            "createdAt": "2023-04-28T08:22:21.964+0000",
+            "updatedAt": "2023-04-28T08:22:21.964+0000",
+            "createdBy": 8112,
+            "updatedBy": 8112,
+            "id": 618246,
+            "deleted": false,
+            "version": 0,
+            "recordActions": nil,
+            "metaData": nil,
+            "tenantId": 3691,
+            "displayName": "Company Phones",
+            "description": nil,
+            "type": "PHONE",
+            "internalType": nil,
+            "name": "companyPhones",
+            "entityType": nil,
+            "standard": true,
+            "sortable": false,
+            "filterable": true,
+            "required": false,
+            "important": false,
+            "active": true,
+            "multiValue": true,
+            "length": nil,
+            "isUnique": nil,
+            "greaterThan": nil,
+            "lessThan": nil,
+            "lookupForEntity": nil,
+            "internal": false,
+            "lookupUrl": nil,
+            "skipIdNameResolution": false,
+            "picklist": nil,
+            "regex": nil,
+            "colorConfiguration": nil,
+            "maskConfiguration": {
+              "id": 2, "enabled": true, "profileIds": [455, 452]
+            }
+          }
+        ]
+      end
+
+      it 'should returns success true and masked fields data' do
+        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields')
+          .with(
+            headers: {
+              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'
+            }
+          )
+          .to_return(status: 200, body: form_fields_response.to_json, headers: {})
+
+        response = described_class.new(
+          api_key: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440',
+          entity_type: 'lead'
+        ).fetch
+
+        expect(response[:success]).to be(true)
+        expect(response[:data]).to eq([
+          {
+            "createdAt"=>"2023-04-28T08:22:21.873+0000",
+            "updatedAt"=>"2023-10-03T06:21:35.378+0000",
+            "createdBy"=>8112,
+            "updatedBy"=>8112,
+            "id"=>618220,
+            "deleted"=>false,
+            "version"=>1,
+            "recordActions"=>nil,
+            "metaData"=>nil,
+            "tenantId"=>3691,
+            "displayName"=>"Phone Numbers Masked",
+            "description"=>nil,
+            "type"=>"PHONE",
+            "internalType"=>nil,
+            "name"=>"phoneNumbers",
+            "entityType"=>nil,
+            "standard"=>true,
+            "sortable"=>false,
+            "filterable"=>true,
+            "required"=>false,
+            "important"=>true,
+            "active"=>true,
+            "multiValue"=>true,
+            "length"=>nil,
+            "isUnique"=>nil,
+            "greaterThan"=>nil,
+            "lessThan"=>nil,
+            "lookupForEntity"=>nil,
+            "internal"=>false,
+            "lookupUrl"=>nil,
+            "skipIdNameResolution"=>false,
+            "picklist"=>nil,
+            "regex"=>nil,
+            "colorConfiguration"=>nil,
+            "maskConfiguration"=>{"id"=>1, "enabled"=>true, "profileIds"=>[]}
+          },
+          {
+            "createdAt"=>"2023-04-28T08:22:21.964+0000",
+            "updatedAt"=>"2023-04-28T08:22:21.964+0000",
+            "createdBy"=>8112,
+            "updatedBy"=>8112,
+            "id"=>618246,
+            "deleted"=>false,
+            "version"=>0,
+            "recordActions"=>nil,
+            "metaData"=>nil,
+            "tenantId"=>3691,
+            "displayName"=>"Company Phones",
+            "description"=>nil,
+            "type"=>"PHONE",
+            "internalType"=>nil,
+            "name"=>"companyPhones",
+            "entityType"=>nil,
+            "standard"=>true,
+            "sortable"=>false,
+            "filterable"=>true,
+            "required"=>false,
+            "important"=>false,
+            "active"=>true,
+            "multiValue"=>true,
+            "length"=>nil,
+            "isUnique"=>nil,
+            "greaterThan"=>nil,
+            "lessThan"=>nil,
+            "lookupForEntity"=>nil,
+            "internal"=>false,
+            "lookupUrl"=>nil,
+            "skipIdNameResolution"=>false,
+            "picklist"=>nil,
+            "regex"=>nil,
+            "colorConfiguration"=>nil,
+            "maskConfiguration"=>{"id"=>2, "enabled"=>true, "profileIds"=>[455, 452]}
+          }
+        ])
       end
     end
   end
