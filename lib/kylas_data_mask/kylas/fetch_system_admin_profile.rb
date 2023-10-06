@@ -24,7 +24,7 @@ module KylasDataMask
             end
           end
 
-          system_admin_profile_id = profiles_list.find { |profile| profile['name'] == 'Admin' && profile['systemDefault'] }&.dig('id')
+          system_admin_profile_id = profiles_list.find { |profile| profile['name'] == 'Admin' && profile['systemDefault'] }.try(:[], 'id')
 
           { success: true, data: system_admin_profile_id }
         else

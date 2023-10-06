@@ -13,10 +13,8 @@ module KylasDataMask
       response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, api_key: @api_key)
       if response[:status_code] == '200'
         masked_fields_array = []
-        response[:data].each do |field|
-          masked_fields_array << field if field.dig('maskConfiguration', 'enabled')
-        end
-
+        masked_fields_array = response[:data].select { |f| f.dig('maskConfiguration', 'enabled').present? }
+        
         { success: true, data: masked_fields_array }
       else
         puts "#{self.class} | Error while fetching masked fields from kylas for entity #{@entity_type} - status_code: #{response[:status_code]}, error_message: #{response[:data]}"
