@@ -23,7 +23,7 @@ RSpec.describe KylasDataMask::FetchMaskedFields do
       end
 
       it 'should returns success false and error data' do
-        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields?entityType=lead')
+        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields')
           .with(
             headers: {
               'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
@@ -169,7 +169,7 @@ RSpec.describe KylasDataMask::FetchMaskedFields do
       end
 
       it 'should returns success true and masked fields data' do
-        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields?entityType=lead')
+        stub_request(:get, 'https://www.examples.io/v1/entities/lead/fields')
           .with(
             headers: {
               'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'

@@ -14,7 +14,7 @@ module KylasDataMask
       if response[:status_code] == '200'
         masked_fields_array = []
         masked_fields_array = response[:data].select { |f| f.dig('maskConfiguration', 'enabled').present? }
-        
+
         { success: true, data: masked_fields_array }
       else
         puts "#{self.class} | Error while fetching masked fields from kylas for entity #{@entity_type} - status_code: #{response[:status_code]}, error_message: #{response[:data]}"
@@ -26,10 +26,17 @@ module KylasDataMask
 
     def request_parameters
       {
-        url: "#{KylasDataMask.config.api_url}/#{API_VERSION}/entities/#{@entity_type}/fields?entityType=#{@entity_type}",
+        url: fields_url,
         request_type: 'get',
         authentication_type: API_KEY
       }
+    end
+
+    def fields_url
+      case @entity_type
+      when LEAD
+        "#{KylasDataMask.config.api_url}/#{API_VERSION}/entities/lead/fields"
+      end
     end
   end
 end
