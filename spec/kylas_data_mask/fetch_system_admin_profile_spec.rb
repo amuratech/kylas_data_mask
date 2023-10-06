@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'kylas_data_mask/kylas/fetch_system_admin_profile'
+require 'kylas_data_mask/fetch_system_admin_profile'
 
-RSpec.describe KylasDataMask::Kylas::FetchSystemAdminProfile do
+RSpec.describe KylasDataMask::FetchSystemAdminProfile do
   describe '#fetch' do
     before(:each) do
       KylasDataMask.configure do |c|
