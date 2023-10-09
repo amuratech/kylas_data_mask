@@ -10,9 +10,8 @@ module KylasDataMask
     end
 
     def fetch
-      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, api_key: @api_key)
+      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters: request_parameters, api_key: @api_key)
       if response[:status_code] == '200'
-        masked_fields_array = []
         masked_fields_array = response[:data].select { |f| f.dig('maskConfiguration', 'enabled').present? }
 
         { success: true, data: masked_fields_array }
@@ -35,7 +34,7 @@ module KylasDataMask
     def fields_url
       case @entity_type
       when LEAD
-        "#{KylasDataMask.config.api_url}/#{API_VERSION}/entities/lead/fields"
+        "#{KylasDataMask.config.api_url}/#{KylasDataMask.config.api_version}/entities/lead/fields"
       end
     end
   end

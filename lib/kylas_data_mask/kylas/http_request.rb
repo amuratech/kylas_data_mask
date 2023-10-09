@@ -3,7 +3,7 @@
 module KylasDataMask
   module Kylas
     class HttpRequest
-      def self.request(request_parameters, access_token: nil, api_key: nil)
+      def self.request(request_parameters:, access_token: nil, api_key: nil)
         url = URI(request_parameters[:url])
         https = Net::HTTP.new(url.host, url.port)
         https.use_ssl = true

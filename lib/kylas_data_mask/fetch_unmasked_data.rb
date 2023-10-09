@@ -12,7 +12,7 @@ module KylasDataMask
     end
 
     def fetch
-      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters, api_key: @api_key)
+      response = KylasDataMask::Kylas::HttpRequest.request(request_parameters: request_parameters, api_key: @api_key)
       if response[:status_code] == '200'
         { success: true, data: response.dig('data', @field) }
       else
@@ -23,7 +23,7 @@ module KylasDataMask
 
     def request_parameters
       {
-        url: "#{KylasDataMask.config.api_url}/#{API_VERSION}/#{@entity_type.downcase.pluralize}/#{@entity_id}",
+        url: "#{KylasDataMask.config.api_url}/#{KylasDataMask.config.api_version}/#{@entity_type.downcase.pluralize}/#{@entity_id}",
         request_type: 'get',
         authentication_type: API_KEY,
         content_type: 'application/json'

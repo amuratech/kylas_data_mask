@@ -7,6 +7,7 @@ require_relative 'kylas_data_mask/version'
 require_relative 'kylas_data_mask/configuration'
 require_relative 'kylas_data_mask/fetch_masked_fields'
 require_relative 'kylas_data_mask/fetch_unmasked_data'
+require_relative 'kylas_data_mask/kylas/webhook'
 
 module KylasDataMask
   class Error < StandardError; end
