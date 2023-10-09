@@ -22,9 +22,8 @@ module KylasDataMask
     config.validate!
   end
 
-  def self.field_is_masked_or_not?(masked_fields_list:, user_profile_id:, field:, system_admin_profile_id: nil)
-    if system_admin_profile_id == user_profile_id
-      # Need to update this once requirement is clear
+  def self.field_is_masked_or_not?(masked_fields_list:, user_profile_id:, field:)
+    if user_profile_id == SYSTEM_ADMIN_PROFILE_ID
       false
     else
       masked_field_detail = masked_fields_list.find { |masked_field| masked_field['name'] == field }

@@ -127,7 +127,7 @@ RSpec.describe KylasDataMask do
 
       context 'when profile ids array in mask configuration is empty' do
         it 'should return masked field flag as true' do
-          response = KylasDataMask.field_is_masked_or_not?(masked_fields_list: masked_fields_list, user_profile_id: 2, field: 'phoneNumbers')
+          response = KylasDataMask.field_is_masked_or_not?(masked_fields_list: masked_fields_list, user_profile_id: 3, field: 'phoneNumbers')
           expect(response).to eq(true)
         end
       end
@@ -144,7 +144,7 @@ RSpec.describe KylasDataMask do
         context 'when current user profile id is included in profile ids array' do
           it 'should return masked field flag as true' do
             masked_fields_list.first['maskConfiguration']['profileIds'] = [2, 3, 4]
-            response = KylasDataMask.field_is_masked_or_not?(masked_fields_list: masked_fields_list, user_profile_id: 2, field: 'phoneNumbers')
+            response = KylasDataMask.field_is_masked_or_not?(masked_fields_list: masked_fields_list, user_profile_id: 3, field: 'phoneNumbers')
             expect(response).to eq(true)
           end
         end
