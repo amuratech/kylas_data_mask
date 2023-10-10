@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe KylasDataMask::FetchUnmaskedData do
+RSpec.describe KylasDataMask::UnmaskedData do
   let(:error_response) do
     {
       'status_code' => '400',

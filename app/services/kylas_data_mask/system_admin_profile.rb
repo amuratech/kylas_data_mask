@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module KylasDataMask
-  class FetchSystemAdminProfile
+  class SystemAdminProfile
     def initialize(api_key:)
       @api_key = api_key
       @page = -1
@@ -34,8 +34,8 @@ module KylasDataMask
 
     def request_parameters
       {
-        url: "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/profiles/search?page=#{page}&size=1000",
-        request_type: 'post',
+        url: KylasDataMask::UrlBuilder.search_url(PROFILE, page),
+        request_type: :post,
         authentication_type: API_KEY,
         body: {
           "fields": [],

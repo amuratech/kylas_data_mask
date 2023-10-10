@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module KylasDataMask
-  class FetchUnmaskedData
+  class UnmaskedData
     def initialize(api_key:, entity_id:, entity_type:, field:)
       @api_key = api_key
       @entity_id = entity_id
@@ -21,8 +21,8 @@ module KylasDataMask
 
     def request_parameters
       {
-        url: "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/#{@entity_type.downcase.pluralize}/#{@entity_id}",
-        request_type: 'get',
+        url: KylasDataMask::UrlBuilder.entity_details_url(@entity_type, @entity_id),
+        request_type: :get,
         authentication_type: API_KEY,
         content_type: 'application/json'
       }

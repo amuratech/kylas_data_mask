@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe KylasDataMask::FetchSystemAdminProfile do
+RSpec.describe KylasDataMask::SystemAdminProfile do
   describe '#fetch' do
     before(:each) do
       KylasDataMask::Context.setup do |c|

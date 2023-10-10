@@ -18,21 +18,11 @@ module KylasDataMask
       end
     end
 
-    def update
-      response = KylasDataMask::HttpRequest.request(request_parameters: request_parameters, api_key: @api_key)
-      if response[:status_code] == '200'
-        { success: true, data: response[:data] }
-      else
-        Rails.logger.error "#{self.class} | Error while updating webhook to kylas: #{@webhook_id} - status_code: #{response[:status_code]}, error_message: #{response[:data]}"
-        { success: false, data: response[:data] }
-      end
-    end
-
     private
 
     def request_parameters
       {
-        url: "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/webhooks",
+        url: KylasDataMask::UrlBuilder.create_webhook_url,
         request_type: 'post',
         authentication_type: API_KEY,
         body: webhook_payload

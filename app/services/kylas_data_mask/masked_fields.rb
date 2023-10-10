@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module KylasDataMask
-  class FetchMaskedFields
+  class MaskedFields
     def initialize(api_key:, entity_type:)
       @api_key = api_key
       @entity_type = entity_type.downcase.singularize
@@ -23,17 +23,10 @@ module KylasDataMask
 
     def request_parameters
       {
-        url: fields_url,
-        request_type: 'get',
+        url: KylasDataMask::UrlBuilder.fields_url(@entity_type),
+        request_type: :get,
         authentication_type: API_KEY
       }
-    end
-
-    def fields_url
-      case @entity_type
-      when LEAD
-        "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/entities/lead/fields"
-      end
     end
   end
 end

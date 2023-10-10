@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe KylasDataMask::FetchMaskedFields do
+RSpec.describe KylasDataMask::MaskedFields do
   describe '#fetch' do
     before(:each) do
       KylasDataMask::Context.setup do |c|
