@@ -31,23 +31,19 @@ module KylasDataMask
       return false if masked_field_detail.blank?
 
       masked_profiles = masked_field_detail['maskConfiguration']['profileIds']
-      if masked_profiles.size > 0
+      if masked_profiles.size.positive?
         if masked_profiles.include?(user_profile_id)
           true
         else
           false
         end
-      elsif masked_profiles.size == 0
+      elsif masked_profiles.size.zero?
         true
       end
     end
   end
 
-  def self.masked_or_unmasked_field_value(field_value:, is_field_masked:)
-    if is_field_masked
-      "****#{field_value[-3..-1]}"
-    else
-      field_value
-    end
+  def self.format_field_value(value:, masked:)
+    masked ? "****#{value[-3..-1]}" : value
   end
 end
