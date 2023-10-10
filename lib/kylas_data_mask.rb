@@ -31,15 +31,8 @@ module KylasDataMask
       return false if masked_field_detail.blank?
 
       masked_profiles = masked_field_detail['maskConfiguration']['profileIds']
-      if masked_profiles.size.positive?
-        if masked_profiles.include?(user_profile_id)
-          true
-        else
-          false
-        end
-      elsif masked_profiles.size.zero?
-        true
-      end
+
+      return (masked_profiles.to_a.include?(user_profile_id) || masked_profiles.size.zero?)
     end
   end
 
