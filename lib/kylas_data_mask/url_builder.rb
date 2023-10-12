@@ -14,6 +14,8 @@ module KylasDataMask
         case entity_type
         when LEAD
           "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/entities/lead/fields"
+        when CALL_LOG
+          "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/call-logs/fields"
         end
       end
 
