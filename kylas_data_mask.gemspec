@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport', '~> 7.0'
   spec.add_dependency 'net-http', '~> 0.3.2'
   spec.add_dependency 'pg'
-  spec.add_dependency 'rails', '>= 7.0'
+  spec.add_dependency 'rails', '~> 7.0'
 
   spec.add_development_dependency 'pry', '~> 0.14.2'
   spec.add_development_dependency 'rspec-rails', '~> 5.0.0'
