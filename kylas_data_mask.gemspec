@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/amuratech/kylas_data_mask'
   spec.summary = 'This gem provides data masking of kylas data in marketplace application.'
   spec.license = 'MIT'
+  spec.required_ruby_version = '>= 2.7.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -21,9 +22,12 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   end
 
-  spec.add_dependency 'rails', '>= 7.1.0'
-  spec.add_dependency 'net-http', '~> 0.3.2'
-  spec.add_development_dependency 'webmock', '~> 3.19'
   spec.add_dependency 'activesupport', '~> 7.0'
+  spec.add_dependency 'net-http', '~> 0.3.2'
+  spec.add_dependency 'pg'
+  spec.add_dependency 'rails', '>= 7.0'
+
   spec.add_development_dependency 'pry', '~> 0.14.2'
+  spec.add_development_dependency 'rspec-rails', '~> 5.0.0'
+  spec.add_development_dependency 'webmock', '~> 3.19'
 end
