@@ -2,10 +2,9 @@
 
 module KylasDataMask
   class Webhook
-    def initialize(api_key:, webhook_api_key:, webhook_id: nil)
+    def initialize(api_key:, webhook_api_key:)
       @api_key = api_key
       @webhook_api_key = webhook_api_key
-      @webhook_id = webhook_id
     end
 
     def create
@@ -46,7 +45,7 @@ module KylasDataMask
     end
 
     def webhook_events_list
-      %w[USER_CREATED USER_UPDATED USER_ACTIVATED USER_DEACTIVATED]
+      %w[USER_UPDATED USER_ACTIVATED USER_DEACTIVATED]
     end
   end
 end
