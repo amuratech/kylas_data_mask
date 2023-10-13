@@ -20,7 +20,7 @@ RSpec.describe KylasDataMask::Webhook, type: :service do
           authenticationKey: Base64.strict_encode64(
             { 'keyName': 'Api-Key', 'value': webhook_api_key }.to_json
           ),
-          events: %w[USER_CREATED USER_UPDATED USER_ACTIVATED USER_DEACTIVATED],
+          events: %w[USER_UPDATED USER_ACTIVATED USER_DEACTIVATED],
           system: true,
           appId: KylasDataMask::Context.config.marketplace_app_id,
           active: true
