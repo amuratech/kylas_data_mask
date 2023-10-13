@@ -7,30 +7,48 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
     context 'when field is masked' do
       before(:each) { expect(helper).to receive(:field_is_masked?).and_return(true) }
 
-      it 'should return masked value' do
-        response = helper.format_value_based_on_masking('call_log', 22, ['phoneNumber'], '9090909876')
-        expect(response).to eq('*******876')
+      context 'when country code is not present in value' do
+        it 'should returns masked value' do
+          response = helper.format_value_based_on_masking(
+            'call_log', double('user'), ['phoneNumber'], '9090909876', PHONE_MASKING
+          )
+          expect(response).to eq('****876')
+        end
+      end
+
+      context 'when country code is present in value' do
+        it 'should returns masked value with country code' do
+          response = helper.format_value_based_on_masking(
+            'call_log', double('user'), ['phoneNumber'], '+355694460027', PHONE_MASKING
+          )
+          expect(response).to eq('+355****027')
+        end
       end
     end
 
     context 'when field is not masked' do
       before(:each) { expect(helper).to receive(:field_is_masked?).and_return(false) }
 
-      it 'should return unmasked value' do
-        response = helper.format_value_based_on_masking('call_log', 22, ['phoneNumber'], '8090909876')
-        expect(response).to eq('8090909876')
+      it 'should returns unmasked value' do
+        response = helper.format_value_based_on_masking(
+          'call_log', double('user'), ['phoneNumber'], '9090909876', PHONE_MASKING
+        )
+        expect(response).to eq('9090909876')
       end
     end
   end
 
   describe '#field_is_masked?' do
+    let(:tenant) { double('tenant', kylas_api_key: SecureRandom.uuid) }
+    let(:user) { double('user', id: 222, kylas_profile_id: 22, tenant: tenant) }
+
     context 'when masking is not enabled on the given field' do
       before(:each) do
         expect(helper).to receive(:cache_masking_configuration).and_return([])
       end
 
-      it 'should return false' do
-        response = helper.field_is_masked?('call_log', 22, ['phoneNumber'])
+      it 'should returns false' do
+        response = helper.field_is_masked?('call_log', user, ['phoneNumber'])
         expect(response).to eq(false)
       end
     end
@@ -63,10 +81,8 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
         expect(helper).to receive(:cache_masking_configuration).and_return(masked_field_list_without_ivr_number)
       end
 
-      it 'should return false' do
-        response = helper.field_is_masked?(
-          'call_log', 22, ['ivrNumber']
-        )
+      it 'should returns false' do
+        response = helper.field_is_masked?('call_log', user, ['ivrNumber'])
         expect(response).to eq(false)
       end
     end
@@ -126,26 +142,26 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
       end
 
       context 'when profile ids array in mask configuration is empty' do
-        it 'should return true' do
-          response = helper.field_is_masked?('call_log', 22, ['phoneNumber'])
+        it 'should returns true' do
+          response = helper.field_is_masked?('call_log', user, ['phoneNumber'])
           expect(response).to eq(true)
         end
       end
 
       context 'when profile ids array in mask configuration is not empty' do
         context 'when current user profile id is not included in profile ids array' do
-          it 'should return false' do
+          it 'should returns false' do
             masked_fields_list.each { |field| field['maskConfiguration']['profileIds'] = [3, 4] }
 
-            response = helper.field_is_masked?('call_log', 22, %w[phoneNumber ivrNumber])
+            response = helper.field_is_masked?('call_log', user, %w[phoneNumber ivrNumber])
             expect(response).to eq(false)
           end
         end
 
         context 'when current user profile id is included in profile ids array' do
-          it 'should return true' do
+          it 'should returns true' do
             masked_fields_list.first['maskConfiguration']['profileIds'] = [22, 3, 4]
-            response = helper.field_is_masked?(masked_fields_list, 22, ['phoneNumber'])
+            response = helper.field_is_masked?(masked_fields_list, user, ['phoneNumber'])
             expect(response).to eq(true)
           end
         end
