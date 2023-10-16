@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'pg'
   spec.add_dependency 'rails'
   spec.add_dependency 'sidekiq'
+  spec.add_dependency 'phonelib'
 
   spec.add_development_dependency 'pry', '~> 0.14.2'
   spec.add_development_dependency 'rspec-rails', '~> 5.0.0'

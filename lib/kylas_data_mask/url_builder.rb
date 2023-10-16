@@ -16,6 +16,8 @@ module KylasDataMask
           "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/entities/lead/fields"
         when CALL_LOG
           "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/call-logs/fields"
+        when CONTACT
+          "#{KylasDataMask::Context.config.api_url}/#{KylasDataMask::Context.config.api_version}/entities/contact/fields"
         end
       end
 

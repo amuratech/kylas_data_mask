@@ -3,6 +3,7 @@
 require 'kylas_data_mask/version'
 require 'kylas_data_mask/engine'
 require 'kylas_data_mask/url_builder'
+require 'phonelib'
 
 module KylasDataMask
   class ContextConfigurationError < StandardError; end
