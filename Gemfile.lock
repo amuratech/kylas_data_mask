@@ -124,7 +124,7 @@ GEM
     mutex_m (0.1.2)
     net-http (0.3.2)
       uri
-    net-imap (0.4.0)
+    net-imap (0.4.1)
       date
       net-protocol
     net-pop (0.1.2)
@@ -234,9 +234,9 @@ PLATFORMS
 
 DEPENDENCIES
   kylas_data_mask!
-  pry (~> 0.14.2)
-  rspec-rails (~> 5.0.0)
-  webmock (~> 3.19)
+  pry
+  rspec-rails
+  webmock
 
 BUNDLED WITH
    2.4.20
