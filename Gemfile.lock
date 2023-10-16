@@ -2,8 +2,6 @@ PATH
   remote: .
   specs:
     kylas_data_mask (1.0.0)
-      activesupport (~> 7.0)
-      net-http (~> 0.3.2)
       pg
       phonelib
       rails
@@ -123,9 +121,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.20.0)
     mutex_m (0.1.2)
-    net-http (0.3.2)
-      uri
-    net-imap (0.4.0)
+    net-imap (0.4.1)
       date
       net-protocol
     net-pop (0.1.2)
@@ -219,7 +215,6 @@ GEM
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uri (0.12.2)
     webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -235,9 +230,9 @@ PLATFORMS
 
 DEPENDENCIES
   kylas_data_mask!
-  pry (~> 0.14.2)
-  rspec-rails (~> 5.0.0)
-  webmock (~> 3.19)
+  pry
+  rspec-rails
+  webmock
 
 BUNDLED WITH
    2.4.20

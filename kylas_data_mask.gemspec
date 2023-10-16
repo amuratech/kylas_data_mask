@@ -22,14 +22,12 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   end
 
-  spec.add_dependency 'activesupport', '~> 7.0'
-  spec.add_dependency 'net-http', '~> 0.3.2'
   spec.add_dependency 'pg'
+  spec.add_dependency 'phonelib'
   spec.add_dependency 'rails'
   spec.add_dependency 'sidekiq'
-  spec.add_dependency 'phonelib'
 
-  spec.add_development_dependency 'pry', '~> 0.14.2'
-  spec.add_development_dependency 'rspec-rails', '~> 5.0.0'
-  spec.add_development_dependency 'webmock', '~> 3.19'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'rspec-rails'
+  spec.add_development_dependency 'webmock'
 end
