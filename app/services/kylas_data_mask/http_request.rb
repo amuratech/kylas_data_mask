@@ -11,9 +11,9 @@ module KylasDataMask
       request['Content-Type'] = 'application/json'
 
       case request_parameters[:authentication_type]
-      when BEARER_TOKEN
+      when KylasDataMask::BEARER_TOKEN
         request['Authorization'] = "Bearer #{access_token}"
-      when API_KEY
+      when KylasDataMask::API_KEY
         request['api-key'] = api_key
       end
 

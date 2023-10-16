@@ -27,7 +27,7 @@ module KylasDataMask
 
     def masking_based_on_type(value, masking_type)
       case masking_type
-      when PHONE_MASKING
+      when KylasDataMask::PHONE_MASKING
         if value.start_with?('+')
           parsed_number = Phonelib.parse(value)
           country_code = parsed_number.country_code

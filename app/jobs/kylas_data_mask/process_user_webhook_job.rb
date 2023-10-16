@@ -14,7 +14,7 @@ module KylasDataMask
         return false
       end
 
-      if entity_type != USER
+      if entity_type != KylasDataMask::USER
         Rails.logger.error I18n.t(
           'webhooks.not_a_user_webhook',
           webhook_api_key: webhook_api_key, entity_type: entity_type

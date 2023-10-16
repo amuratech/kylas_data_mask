@@ -10,7 +10,7 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
       context 'when country code is not present in value' do
         it 'should returns masked value' do
           response = helper.format_value_based_on_masking(
-            'call_log', double('user'), ['phoneNumber'], '9090909876', PHONE_MASKING
+            'call_log', double('user'), ['phoneNumber'], '9090909876', KylasDataMask::PHONE_MASKING
           )
           expect(response).to eq('****876')
         end
@@ -19,7 +19,7 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
       context 'when country code is present in value' do
         it 'should returns masked value with country code' do
           response = helper.format_value_based_on_masking(
-            'call_log', double('user'), ['phoneNumber'], '+355694460027', PHONE_MASKING
+            'call_log', double('user'), ['phoneNumber'], '+355694460027', KylasDataMask::PHONE_MASKING
           )
           expect(response).to eq('+355****027')
         end
@@ -31,7 +31,7 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
 
       it 'should returns unmasked value' do
         response = helper.format_value_based_on_masking(
-          'call_log', double('user'), ['phoneNumber'], '9090909876', PHONE_MASKING
+          'call_log', double('user'), ['phoneNumber'], '9090909876', KylasDataMask::PHONE_MASKING
         )
         expect(response).to eq('9090909876')
       end
