@@ -2,8 +2,7 @@ PATH
   remote: .
   specs:
     kylas_data_mask (1.0.0)
-      activesupport (~> 7.0)
-      net-http (~> 0.3.2)
+      net-http
       pg
       phonelib
       rails
