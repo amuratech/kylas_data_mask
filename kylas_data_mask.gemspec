@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   end
 
-  spec.add_dependency 'net-http'
   spec.add_dependency 'pg'
   spec.add_dependency 'phonelib'
   spec.add_dependency 'rails'
