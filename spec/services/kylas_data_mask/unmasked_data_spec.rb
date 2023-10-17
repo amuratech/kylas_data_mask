@@ -115,12 +115,12 @@ RSpec.describe KylasDataMask::UnmaskedData do
         stub_request(:get, 'https://www.examples.io/v1/leads/468994')
           .with(
             headers: {
-              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'
+              'Authorization' => 'Bearer 72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440'
             }
           )
           .to_return(status: 200, body: lead_details_response.to_json, headers: {})
         response = described_class.new(
-          api_key: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440',
+          access_token: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:3440',
           entity_type: 'lead',
           entity_id: 468_994,
           field: 'phoneNumbers'
@@ -136,12 +136,12 @@ RSpec.describe KylasDataMask::UnmaskedData do
         stub_request(:get, 'https://www.examples.io/v1/leads/468994')
           .with(
             headers: {
-              'Api-key' => '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
+              'Authorization' => 'Bearer 72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344'
             }
           )
           .to_return(status: 400, body: error_response.to_json, headers: {})
         response = described_class.new(
-          api_key: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344',
+          access_token: '72e641f7-3ed3-4ae0-98c4-dad27fd0964c:344',
           entity_type: 'lead',
           entity_id: 468_994,
           field: 'phoneNumbers'
