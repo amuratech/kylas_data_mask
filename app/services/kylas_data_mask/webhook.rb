@@ -23,7 +23,7 @@ module KylasDataMask
       {
         url: KylasDataMask::UrlBuilder.create_webhook_url,
         request_type: 'post',
-        authentication_type: API_KEY,
+        authentication_type: KylasDataMask::API_KEY,
         body: webhook_payload
       }
     end

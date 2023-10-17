@@ -2,15 +2,15 @@
 
 module KylasDataMask
   class UnmaskedData
-    def initialize(api_key:, entity_id:, entity_type:, field:)
-      @api_key = api_key
+    def initialize(access_token:, entity_id:, entity_type:, field:)
+      @access_token = access_token
       @entity_id = entity_id
       @entity_type = entity_type
       @field = field
     end
 
     def fetch
-      response = KylasDataMask::HttpRequest.request(request_parameters: request_parameters, api_key: @api_key)
+      response = KylasDataMask::HttpRequest.request(request_parameters: request_parameters, access_token: @access_token)
       if response[:status_code] == '200'
         { success: true, data: response.dig('data', @field) }
       else
@@ -23,7 +23,7 @@ module KylasDataMask
       {
         url: KylasDataMask::UrlBuilder.entity_details_url(@entity_type, @entity_id),
         request_type: :get,
-        authentication_type: API_KEY,
+        authentication_type: KylasDataMask::BEARER_TOKEN,
         content_type: 'application/json'
       }
     end

@@ -25,7 +25,7 @@ module KylasDataMask
       {
         url: KylasDataMask::UrlBuilder.fields_url(@entity_type),
         request_type: :get,
-        authentication_type: API_KEY
+        authentication_type: KylasDataMask::API_KEY
       }
     end
   end

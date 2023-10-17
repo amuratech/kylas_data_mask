@@ -36,7 +36,7 @@ module KylasDataMask
       {
         url: KylasDataMask::UrlBuilder.search_url(PROFILE, page),
         request_type: :post,
-        authentication_type: API_KEY,
+        authentication_type: KylasDataMask::API_KEY,
         body: {
           "fields": [],
           "jsonRule": nil
