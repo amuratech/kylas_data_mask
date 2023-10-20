@@ -9,4 +9,5 @@ module KylasDataMask
   USER = 'user'
   PHONE_MASKING = 'phone_masking'
   CONTACT = 'contact'
+  NAME_MASKING = 'name_masking'
 end
