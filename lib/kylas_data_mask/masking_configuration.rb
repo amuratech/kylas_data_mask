@@ -34,6 +34,15 @@ module KylasDataMask
         else
           "****#{value[-3..]}"
         end
+      when KylasDataMask::LAST_NAME_MASKING
+        if value.start_with?('+')
+          parsed_number = Phonelib.parse(value)
+          country_code = parsed_number.country_code
+          number_without_country_code = parsed_number.national(false).to_s[1..-1]
+          "+#{country_code}MaskedValue#{number_without_country_code.to_s[-3..]}"
+        else
+          "MaskedValue#{value[-3..]}"
+        end
       end
     rescue StandardError => e
       Rails.logger.error "KylasDataMask -> masking_based_on_type -> Error Message: #{e.message}"
@@ -42,14 +51,18 @@ module KylasDataMask
     end
 
     def cache_masking_configuration(entity_type, user_id, api_key)
-      Rails.cache.fetch("user_#{user_id}_#{entity_type}_mask_configuration", expires_in: 30.minutes) do
+      Rails.cache.fetch("user_#{user_id}_#{format_entity_type(entity_type)}_mask_configuration", expires_in: 30.minutes) do
         response = KylasDataMask::MaskedFields.new(api_key: api_key, entity_type: entity_type).fetch
         response[:data] if response[:success]
       end
     end
 
     def clear_cache_masking_configuration(entity_type, user_id)
-      Rails.cache.delete("user_#{user_id}_#{entity_type}_mask_configuration")
+      Rails.cache.delete("user_#{user_id}_#{format_entity_type(entity_type)}_mask_configuration")
+    end
+
+    def format_entity_type(entity_type)
+      entity_type.downcase.singularize
     end
   end
 end

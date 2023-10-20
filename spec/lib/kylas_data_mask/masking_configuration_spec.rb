@@ -174,4 +174,50 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
       end
     end
   end
+
+  describe '#masking_based_on_type' do
+    context 'when masking type is phone number masking' do
+      context 'when country code is not present in value' do
+        it 'should returns masked value' do
+          response = test_class.masking_based_on_type(
+            '9090909876',
+            KylasDataMask::PHONE_MASKING
+          )
+          expect(response).to eq('****876')
+        end
+      end
+
+      context 'when country code is present in value' do
+        it 'should returns masked value with country code' do
+          response = test_class.masking_based_on_type(
+            '+355694460027',
+            KylasDataMask::PHONE_MASKING
+          )
+          expect(response).to eq('+355****027')
+        end
+      end
+    end
+
+    context 'when masking type is last name masking' do
+      context 'when country code is not present in value' do
+        it 'should returns masked value' do
+          response = test_class.masking_based_on_type(
+            '9090909876',
+            KylasDataMask::LAST_NAME_MASKING
+          )
+          expect(response).to eq('MaskedValue876')
+        end
+      end
+
+      context 'when country code is present in value' do
+        it 'should returns masked value with country code' do
+          response = test_class.masking_based_on_type(
+            '+355694460027',
+            KylasDataMask::LAST_NAME_MASKING
+          )
+          expect(response).to eq('+355MaskedValue027')
+        end
+      end
+    end
+  end
 end
