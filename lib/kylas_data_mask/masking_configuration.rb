@@ -34,7 +34,7 @@ module KylasDataMask
         else
           "****#{value[-3..]}"
         end
-      when KylasDataMask::LAST_NAME_MASKING
+      when KylasDataMask::NAME_MASKING
         if value.start_with?('+')
           parsed_number = Phonelib.parse(value)
           country_code = parsed_number.country_code

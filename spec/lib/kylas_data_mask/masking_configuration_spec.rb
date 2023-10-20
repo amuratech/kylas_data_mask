@@ -203,7 +203,7 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
         it 'should returns masked value' do
           response = test_class.masking_based_on_type(
             '9090909876',
-            KylasDataMask::LAST_NAME_MASKING
+            KylasDataMask::NAME_MASKING
           )
           expect(response).to eq('MaskedValue876')
         end
@@ -213,7 +213,7 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
         it 'should returns masked value with country code' do
           response = test_class.masking_based_on_type(
             '+355694460027',
-            KylasDataMask::LAST_NAME_MASKING
+            KylasDataMask::NAME_MASKING
           )
           expect(response).to eq('+355MaskedValue027')
         end
