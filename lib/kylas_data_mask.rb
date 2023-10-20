@@ -3,6 +3,7 @@
 require 'kylas_data_mask/version'
 require 'kylas_data_mask/engine'
 require 'kylas_data_mask/url_builder'
+require 'kylas_data_mask/masking_configuration'
 require 'phonelib'
 
 module KylasDataMask
