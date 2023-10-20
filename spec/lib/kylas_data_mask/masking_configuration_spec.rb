@@ -205,7 +205,7 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
             '9090909876',
             KylasDataMask::NAME_MASKING
           )
-          expect(response).to eq('MaskedValue876')
+          expect(response).to eq('MaskedPhone876')
         end
       end
 
@@ -215,7 +215,7 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
             '+355694460027',
             KylasDataMask::NAME_MASKING
           )
-          expect(response).to eq('+355MaskedValue027')
+          expect(response).to eq('+355MaskedPhone027')
         end
       end
     end
