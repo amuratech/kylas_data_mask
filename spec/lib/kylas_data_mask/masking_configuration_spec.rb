@@ -198,7 +198,7 @@ RSpec.describe 'KylasDataMask::MaskingConfiguration' do
       end
     end
 
-    context 'when masking type is last name masking' do
+    context 'when masking type is name masking' do
       context 'when country code is not present in value' do
         it 'should returns masked value' do
           response = test_class.masking_based_on_type(
