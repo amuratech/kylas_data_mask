@@ -2,14 +2,20 @@
 
 require 'rails_helper'
 
-RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
+class TestClass
+  include KylasDataMask::MaskingConfiguration
+end
+
+RSpec.describe 'KylasDataMask::MaskingConfiguration' do
+  let(:test_class) { TestClass.new }
+
   describe '#format_value_based_on_masking' do
     context 'when field is masked' do
-      before(:each) { expect(helper).to receive(:field_is_masked?).and_return(true) }
+      before(:each) { expect_any_instance_of(TestClass).to receive(:field_is_masked?).and_return(true) }
 
       context 'when country code is not present in value' do
         it 'should returns masked value' do
-          response = helper.format_value_based_on_masking(
+          response = test_class.format_value_based_on_masking(
             'call_log', double('user'), ['phoneNumber'], '9090909876', KylasDataMask::PHONE_MASKING
           )
           expect(response).to eq('****876')
@@ -18,7 +24,7 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
 
       context 'when country code is present in value' do
         it 'should returns masked value with country code' do
-          response = helper.format_value_based_on_masking(
+          response = test_class.format_value_based_on_masking(
             'call_log', double('user'), ['phoneNumber'], '+355694460027', KylasDataMask::PHONE_MASKING
           )
           expect(response).to eq('+355****027')
@@ -27,10 +33,10 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
     end
 
     context 'when field is not masked' do
-      before(:each) { expect(helper).to receive(:field_is_masked?).and_return(false) }
+      before(:each) { expect_any_instance_of(TestClass).to receive(:field_is_masked?).and_return(false) }
 
       it 'should returns unmasked value' do
-        response = helper.format_value_based_on_masking(
+        response = test_class.format_value_based_on_masking(
           'call_log', double('user'), ['phoneNumber'], '9090909876', KylasDataMask::PHONE_MASKING
         )
         expect(response).to eq('9090909876')
@@ -44,11 +50,11 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
 
     context 'when masking is not enabled on the given field' do
       before(:each) do
-        expect(helper).to receive(:cache_masking_configuration).and_return([])
+        expect_any_instance_of(TestClass).to receive(:cache_masking_configuration).and_return([])
       end
 
       it 'should returns false' do
-        response = helper.field_is_masked?('call_log', user, ['phoneNumber'])
+        response = test_class.field_is_masked?('call_log', user, ['phoneNumber'])
         expect(response).to eq(false)
       end
     end
@@ -78,11 +84,11 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
       end
 
       before(:each) do
-        expect(helper).to receive(:cache_masking_configuration).and_return(masked_field_list_without_ivr_number)
+        expect_any_instance_of(TestClass).to receive(:cache_masking_configuration).and_return(masked_field_list_without_ivr_number)
       end
 
       it 'should returns false' do
-        response = helper.field_is_masked?('call_log', user, ['ivrNumber'])
+        response = test_class.field_is_masked?('call_log', user, ['ivrNumber'])
         expect(response).to eq(false)
       end
     end
@@ -138,12 +144,12 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
       end
 
       before(:each) do
-        expect(helper).to receive(:cache_masking_configuration).and_return(masked_fields_list)
+        expect_any_instance_of(TestClass).to receive(:cache_masking_configuration).and_return(masked_fields_list)
       end
 
       context 'when profile ids array in mask configuration is empty' do
         it 'should returns true' do
-          response = helper.field_is_masked?('call_log', user, ['phoneNumber'])
+          response = test_class.field_is_masked?('call_log', user, ['phoneNumber'])
           expect(response).to eq(true)
         end
       end
@@ -153,7 +159,7 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
           it 'should returns false' do
             masked_fields_list.each { |field| field['maskConfiguration']['profileIds'] = [3, 4] }
 
-            response = helper.field_is_masked?('call_log', user, %w[phoneNumber ivrNumber])
+            response = test_class.field_is_masked?('call_log', user, %w[phoneNumber ivrNumber])
             expect(response).to eq(false)
           end
         end
@@ -161,9 +167,55 @@ RSpec.describe KylasDataMask::ApplicationHelper, type: :helper do
         context 'when current user profile id is included in profile ids array' do
           it 'should returns true' do
             masked_fields_list.first['maskConfiguration']['profileIds'] = [22, 3, 4]
-            response = helper.field_is_masked?(masked_fields_list, user, ['phoneNumber'])
+            response = test_class.field_is_masked?(masked_fields_list, user, ['phoneNumber'])
             expect(response).to eq(true)
           end
+        end
+      end
+    end
+  end
+
+  describe '#masking_based_on_type' do
+    context 'when masking type is phone number masking' do
+      context 'when country code is not present in value' do
+        it 'should returns masked value' do
+          response = test_class.masking_based_on_type(
+            '9090909876',
+            KylasDataMask::PHONE_MASKING
+          )
+          expect(response).to eq('****876')
+        end
+      end
+
+      context 'when country code is present in value' do
+        it 'should returns masked value with country code' do
+          response = test_class.masking_based_on_type(
+            '+355694460027',
+            KylasDataMask::PHONE_MASKING
+          )
+          expect(response).to eq('+355****027')
+        end
+      end
+    end
+
+    context 'when masking type is name masking' do
+      context 'when country code is not present in value' do
+        it 'should returns masked value' do
+          response = test_class.masking_based_on_type(
+            '9090909876',
+            KylasDataMask::NAME_MASKING
+          )
+          expect(response).to eq('MaskedPhone876')
+        end
+      end
+
+      context 'when country code is present in value' do
+        it 'should returns masked value with country code' do
+          response = test_class.masking_based_on_type(
+            '+355694460027',
+            KylasDataMask::NAME_MASKING
+          )
+          expect(response).to eq('+355MaskedPhone027')
         end
       end
     end
